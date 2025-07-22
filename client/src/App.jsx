@@ -11,6 +11,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import { Toaster } from "react-hot-toast";
+import PromptList from "./pages/PromptList";
+import CourseList from "./pages/CourseList";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -35,6 +37,7 @@ function App() {
     <Router>
       <Toaster position="top-right" />
       <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+
       <Routes>
         <Route
           path="/"
@@ -44,6 +47,8 @@ function App() {
         />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/prompts" element={<PromptList />} />
+        <Route path="/courses" element={<CourseList />} />
         <Route
           path="/dashboard"
           element={

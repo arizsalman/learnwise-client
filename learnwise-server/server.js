@@ -17,6 +17,9 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
+app.use('/api/courses', require('./routes/course'));
+app.use('/api/lessons', require('./routes/lessonRoutes'));
+app.use('/api/quiz', require('./routes/quizRoutes'));
 
 // 404 handler
 app.use((req, res) => {
