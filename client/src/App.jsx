@@ -13,6 +13,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { Toaster } from "react-hot-toast";
 import PromptList from "./pages/PromptList";
 import CourseList from "./pages/CourseList";
+import CourseDetails from "./pages/CourseDetails";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -49,6 +50,14 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/prompts" element={<PromptList />} />
         <Route path="/courses" element={<CourseList />} />
+        <Route 
+          path="/course/:courseId" 
+          element={
+            <PrivateRoute>
+              <CourseDetails />
+            </PrivateRoute>
+          } 
+        />
         <Route
           path="/dashboard"
           element={
