@@ -20,6 +20,7 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/courses', require('./routes/course'));
 app.use('/api/lessons', require('./routes/lessonRoutes'));
 app.use('/api/quiz', require('./routes/quizRoutes'));
+app.use('/api/certificate', require('./routes/certificateRoutes'));
 
 // 404 handler
 app.use((req, res) => {
