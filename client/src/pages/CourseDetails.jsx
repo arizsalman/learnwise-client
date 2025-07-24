@@ -25,7 +25,9 @@ const CourseDetails = () => {
 
         // Fetch lessons for this course
         const lessonsResponse = await api.get(`/lessons/course/${courseId}`);
-        setLessons(lessonsResponse.data);
+        // Ensure lessons is always an array
+        const lessonsData = Array.isArray(lessonsResponse.data) ? lessonsResponse.data : [];
+        setLessons(lessonsData);
       } catch (err) {
         console.error('Error fetching course data:', err);
         if (err.response?.status === 401) {
@@ -136,7 +138,7 @@ const CourseDetails = () => {
             <h2 className="text-xl font-semibold text-gray-900">Course Lessons</h2>
           </div>
           <div className="p-6">
-            {lessons.length === 0 ? (
+            {!Array.isArray(lessons) || lessons.length === 0 ? (
               <div className="text-center py-8">
                 <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />

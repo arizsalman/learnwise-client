@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import api from '../api/axios';
+import CodingChallenge from '../components/CodingChallenge';
 
 const PromptList = () => {
   const [prompts, setPrompts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedPrompt, setSelectedPrompt] = useState(null);
+  const [showCodingChallenge, setShowCodingChallenge] = useState(false);
 
   // Default prompts for learning and practice
   const defaultPrompts = [
@@ -64,9 +67,13 @@ const PromptList = () => {
     const fetchPrompts = async () => {
       try {
         setLoading(true);
-        // Try to fetch prompts from API, fallback to default prompts
-        const response = await api.get('/prompts');
-        setPrompts(response.data);
+        // For now, use default prompts directly since API endpoint is not implemented
+        // This prevents 404 errors in console
+        setPrompts(defaultPrompts);
+        
+        // Uncomment below when API endpoint is ready:
+        // const response = await api.get('/prompts');
+        // setPrompts(response.data);
       } catch (err) {
         console.log('Using default prompts');
         setPrompts(defaultPrompts);
@@ -152,8 +159,15 @@ const PromptList = () => {
                     {prompt.category}
                   </span>
                   <button
-                    onClick={() => toast.success('Challenge accepted! Start coding!')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                    onClick={() => {
+                      if (!showCodingChallenge) {
+                        setSelectedPrompt(prompt);
+                        setShowCodingChallenge(true);
+                        toast.success('Challenge accepted! Start coding!');
+                      }
+                    }}
+                    disabled={showCodingChallenge}
+                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
                   >
                     Start Challenge
                   </button>
@@ -172,6 +186,17 @@ const PromptList = () => {
           </div>
         )}
       </div>
+
+      {/* Coding Challenge Modal */}
+      {showCodingChallenge && selectedPrompt && (
+        <CodingChallenge
+          prompt={selectedPrompt}
+          onClose={() => {
+            setShowCodingChallenge(false);
+            setSelectedPrompt(null);
+          }}
+        />
+      )}
     </div>
   );
 };
